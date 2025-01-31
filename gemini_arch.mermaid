@@ -1,14 +1,29 @@
-graph TD
-    A[Enterprise Applications] --> B{Application Integration Layer}
-    B --> C[Google Gemini (LLM)]
-    C --> D[GCP Services]
-    D --> E[Data Sources]
-
-    subgraph GCP Services
-        D1[Vertex AI]
-        D2[Cloud Storage]
-        D3[BigQuery]
-        D4[Cloud Functions/Cloud Run]
-        D5[Apigee]
-        D6[Cloud Logging/Monitoring]
+graph TB
+    subgraph Enterprise Applications
+        A[Internal Apps] --> B[API Gateway]
+        C[Custom UI] --> B
     end
+    
+    subgraph Gemini Integration Layer
+        B --> D[Request Handler]
+        D --> E[Prompt Engineering]
+        D --> F[Context Builder]
+        E --> G[Gemini Client]
+        F --> G
+    end
+    
+    subgraph Data Sources
+        H[APIs] --> F
+        I[Databases] --> F
+        J[Document Store] --> F
+    end
+    
+    subgraph Security & Compliance
+        K[IAM]
+        L[Data Governance]
+        M[Audit Logging]
+    end
+    
+    G --> K
+    G --> L
+    D --> M
