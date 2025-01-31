@@ -1,0 +1,14 @@
+graph TD
+    A[Enterprise Applications] --> B{Application Integration Layer}
+    B --> C[Google Gemini (LLM)]
+    C --> D[GCP Services]
+    D --> E[Data Sources]
+
+    subgraph GCP Services
+        D1[Vertex AI]
+        D2[Cloud Storage]
+        D3[BigQuery]
+        D4[Cloud Functions/Cloud Run]
+        D5[Apigee]
+        D6[Cloud Logging/Monitoring]
+    end
