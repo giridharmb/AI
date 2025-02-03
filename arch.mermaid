@@ -1,0 +1,74 @@
+graph LR
+
+    subgraph User_Interface["Slack Interface Layer\n(User Interaction & API Gateway)"]
+        A([End User\nSends queries and receives responses])
+        B[("Slack Client\nHandles user interactions\nManages message display")]
+        C["Slack API Gateway\nRoutes messages\nHandles authentication"]
+        
+        A --> |"1. Sends Query"| B
+        B --> |"2. API Call"| C
+        
+        style A fill:#f9f,stroke:#333,stroke-width:2px
+        style B fill:#bbf,stroke:#333,stroke-width:2px
+        style C fill:#ddf,stroke:#333,stroke-width:2px
+    end
+
+    C --> |"3. Forward Request"| D
+
+    subgraph Application["Application Layer\n(Request Processing & Orchestration)"]
+        D["Slack Bot Server\nHandles message events\nManages conversation state"]
+        E{"Request Handler\nRoutes requests\nValidates input\nOrchestrates flow"}
+        N["Response Processor\nFormats responses\nHandles errors\nManages conversation context"]
+        
+        D --> |"4. Process"| E
+        N --> |"12. Format"| D
+        
+        style D fill:#beb,stroke:#333,stroke-width:2px
+        style E fill:#beb,stroke:#333,stroke-width:2px
+        style N fill:#beb,stroke:#333,stroke-width:2px
+    end
+
+    subgraph Data["Data Layer\n(Storage & Retrieval)"]
+        F["Data Retrieval Orchestrator\nCoordinates data access\nHandles caching"]
+        G["GCS Client\nManages file operations\nHandles large data"]
+        H["BigQuery Client\nExecutes queries\nManages data pipeline"]
+        I[("Google Cloud Storage\nStores documents\nHandles binary data")]
+        J[("BigQuery\nStores structured data\nHandles analytics")]
+        
+        E --> |"5. Request Data"| F
+        F --> |"6a. Fetch"| G
+        F --> |"6b. Query"| H
+        G --> |"7a. Read"| I
+        H --> |"7b. Execute"| J
+        
+        style F fill:#fdd,stroke:#333,stroke-width:2px
+        style G fill:#fdd,stroke:#333,stroke-width:2px
+        style H fill:#fdd,stroke:#333,stroke-width:2px
+        style I fill:#fcc,stroke:#333,stroke-width:2px
+        style J fill:#fcc,stroke:#333,stroke-width:2px
+    end
+
+    subgraph AI["AI Processing Layer\n(LLM Integration)"]
+        K["Prompt Engineering Module\nGenerates context\nManages templates"]
+        L["Gemini API Client\nHandles API calls\nManages rate limits"]
+        M["Google Cloud Gemini API\nProcesses natural language\nGenerates responses"]
+        
+        E --> |"8. Generate Prompt"| K
+        K --> |"9. Send Prompt"| L
+        L <--> |"10. Process"| M
+        L --> |"11. Return"| N
+        
+        style K fill:#dfd,stroke:#333,stroke-width:2px
+        style L fill:#dfd,stroke:#333,stroke-width:2px
+        style M fill:#cfc,stroke:#333,stroke-width:2px
+    end
+
+    D --> |"13. Respond"| C
+
+    style User_Interface fill:#f0f0ff,stroke:#333,stroke-width:2px
+    style Application fill:#f0fff0,stroke:#333,stroke-width:2px
+    style Data fill:#fff0f0,stroke:#333,stroke-width:2px
+    style AI fill:#f0fff0,stroke:#333,stroke-width:2px
+    
+    linkStyle default stroke:#666,stroke-width:2px
+    classDef default fill:#fff,stroke:#333,stroke-width:2px
